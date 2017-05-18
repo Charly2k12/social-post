@@ -4,3 +4,5 @@ node_modules
 *.scssc
 !spec/*.scssc
 *map
+dist/
+public/

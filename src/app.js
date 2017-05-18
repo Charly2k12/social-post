@@ -1,9 +1,4 @@
-import Utils from "./app/utils";
+import Utils from "./lib/utils";
+import WPMgr from "./lib/wp/WPMgr";
 
-
-
-
-
-
-
-window.Utils = Utils;
+import test from "./components/test";
