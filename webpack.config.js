@@ -4,20 +4,22 @@
  webpack --config webpack.config.js --progress --colors
 */
 
-var BundleAnalyzerPlugin  = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var webpack               = require('webpack');
 var path                  = require('path');
 var src                   = path.resolve(__dirname, './src');
+var dist                  = path.resolve(__dirname, './public');
 var modules               = path.resolve(__dirname, 'node_modules');
+var ExtractTextPlugin     = require('extract-text-webpack-plugin');
+var BundleAnalyzerPlugin  = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
 
   devtool: 'source-map',
-  context: path.resolve(__dirname, './src'),
+  context: src,
 
   entry: [
 
-    //'react-hot-loader/patch',
+    'react-hot-loader/patch', 
     // activate HMR for React
 
     'webpack-dev-server/client?http://localhost:8080',
@@ -35,7 +37,7 @@ module.exports = {
     filename: "bundle.js",
     //filename: '[name].js',
     chunkFilename: 'chunk/[id][chunkhash:8].js',
-    path: path.resolve(__dirname, './public'),
+    path: dist + "/assets/js/",
     publicPath: "http://localhost:8080/"
   },
 
@@ -45,12 +47,10 @@ module.exports = {
   },
 
   /*
-
   externals: {
     'moment': 'moment',
     'angular': 'angular'
   },
-
   resolve: {
       alias: {},
       modules: []
@@ -85,19 +85,23 @@ module.exports = {
             'stage-1',
             'stage-0',
             'es2015', 
-           // 'react'
+            'react'
           ],
           plugins: [
             "syntax-dynamic-import",
             "transform-runtime",
             "transform-class-properties",
-            //"transform-decorators-legacy",
+            "transform-decorators-legacy",
             "transform-es2015-template-literals",
             'transform-async-to-generator',
             'transform-regenerator',
             //{modules: false}
           ]
         }
+      },
+      {
+        test: /\.scss$/,
+        loaders: ExtractTextPlugin.extract('css-loader!sass-loader')
       }
     ],
     /*
@@ -118,8 +122,8 @@ module.exports = {
 
     new webpack.NamedModulesPlugin(),
     // prints more readable module names in the browser console on HMR updates
-
-
+    
+    new ExtractTextPlugin(dist + "/assets/css/app.css")
   ]
 };
 

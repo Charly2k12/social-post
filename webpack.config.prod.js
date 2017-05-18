@@ -3,31 +3,42 @@
  webpack --config webpack.config.prod.js --progress --colors
 */
 
-var BundleAnalyzerPlugin  = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var webpack               = require('webpack');
 var path                  = require('path');
 var src                   = path.resolve(__dirname, './src');
+var dist                  = path.resolve(__dirname, './dist');
 var modules               = path.resolve(__dirname, 'node_modules');
+var autoprefixer          = require('autoprefixer');
+var ExtractTextPlugin     = require('extract-text-webpack-plugin');
+var BundleAnalyzerPlugin  = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+//var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
 
   devtool: 'source-map',
   context: path.resolve(__dirname, './src'),
 
-  entry: [
-    src + "/app.js"
-  ],
+  entry: {
+    app: src + "/app.js"
+  },
 
+  output: {
+    filename: 'js/social-post.[name].min.js',
+    chunkFilename: 'js/chunk/[id][chunkhash:8].min.js',
+    path: dist,
+    publicPath: "/"
+  },
+/*
   output: {
     filename: '[name].[hash].js',
     chunkFilename: 'chunk/[id][chunkhash:8].js',
-    path: path.resolve(__dirname, './dist' ),
+    path: dist,
     publicPath: "/"
   },
-
+*/
   externals: {
-    //'ajv': 'Ajv',
-    //'moment': 'moment'
+    'react'     : 'React',
+    'react-dom' : 'ReactDOM'
   },
 
   /*
@@ -61,11 +72,16 @@ module.exports = {
             'transform-regenerator',
           ]
         }
+      },
+      {
+        test: /\.scss$/,
+        loaders: ExtractTextPlugin.extract('css-loader!sass-loader')
       }
     ]
   },
 
   plugins: [
+
     /*
     new BundleAnalyzerPlugin({
       analyzerMode: 'static'
@@ -92,6 +108,13 @@ module.exports = {
         screw_ie8: true
       },
       comments: false
+    }),
+    new ExtractTextPlugin("/css/social-post.min.css"),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      options: {
+        postcss: [autoprefixer]       
+      }
     })
   ]
 };
