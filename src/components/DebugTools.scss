@@ -1,0 +1,35 @@
+// ------------------- //
+  // DEBUG TOOLS ------------------- //
+// ------------------- //
+
+debug-tools {
+
+  // Screen Size Debugger ----------------
+
+  debug-screen-size {
+    position: fixed;
+    z-index: 9999999;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: table;
+    table-layout: fixed;
+    height: 100vh !important;
+    width: 50px;
+    .wrapper {
+      text-align: center;
+      display: table-cell;
+      vertical-align: middle;
+      width: 100%;
+      div {
+        position: relative;
+        background: rgba(0, 0, 0, 0.4);
+        color: #FFC107;
+        padding: 10px;
+        font-size: 20px;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
