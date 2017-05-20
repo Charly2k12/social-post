@@ -9,7 +9,6 @@ var path                  = require('path');
 var src                   = path.resolve(__dirname, './src');
 var dist                  = path.resolve(__dirname, './public');
 var modules               = path.resolve(__dirname, 'node_modules');
-var ExtractTextPlugin     = require('extract-text-webpack-plugin');
 var BundleAnalyzerPlugin  = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -34,29 +33,14 @@ module.exports = {
   ],
 
   output: {
-    filename: "bundle.js",
+    filename: "app.js",
     //filename: '[name].js',
     chunkFilename: 'chunk/[id][chunkhash:8].js',
     path: dist + "/assets/js/",
     publicPath: "http://localhost:8080/"
   },
 
-  externals: {
-    //'ajv': 'Ajv',
-    //'moment': 'moment'
-  },
-
-  /*
-  externals: {
-    'moment': 'moment',
-    'angular': 'angular'
-  },
-  resolve: {
-      alias: {},
-      modules: []
-  },
-  */
-
+  // externals: {},
   devServer: {
     hot: true,
     // enable HMR on the server
@@ -64,7 +48,7 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'public'),
     // match the output path
 
-    //publicPath: '/',
+    publicPath: '/',
     // match the output `publicPath`
     /*
     proxy: {
@@ -73,58 +57,47 @@ module.exports = {
     */
   },
 
-  module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: modules,
-        loader: 'babel-loader',
-        query: {
-          presets: [
-            'stage-3',
-            'stage-1',
-            'stage-0',
-            'es2015', 
-            'react'
-          ],
-          plugins: [
-            "syntax-dynamic-import",
-            "transform-runtime",
-            "transform-class-properties",
-            "transform-decorators-legacy",
-            "transform-es2015-template-literals",
-            'transform-async-to-generator',
-            'transform-regenerator',
-            //{modules: false}
-          ]
-        }
-      },
-      {
-        test: /\.scss$/,
-        loaders: ExtractTextPlugin.extract('css-loader!sass-loader')
-      }
-    ],
-    /*
-    rules: [{
-      test: /\.(sass|scss)$/, //Check for sass or scss file names
-      use: [
-        'style-loader',
-        'css-loader',
-        'sass-loader',
-      ]
-    }],
-  */
-  },
-
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     // enable HMR globally
 
     new webpack.NamedModulesPlugin(),
     // prints more readable module names in the browser console on HMR updates
-    
-    new ExtractTextPlugin(dist + "/assets/css/app.css")
-  ]
+  ],
+
+  module: {
+    rules: [
+      {
+        test: /\.js?$/,
+        exclude: modules,
+        //include: path.join(__dirname, 'src'),
+        use: [
+          {
+            loader: 'babel-loader',
+            query: {
+              presets: [
+                'stage-3',
+                'stage-1',
+                'stage-0',
+                'es2015', 
+                'react'
+              ],
+              plugins: [
+                "syntax-dynamic-import",
+                "transform-runtime",
+                "transform-class-properties",
+                "transform-decorators-legacy",
+                "transform-es2015-template-literals",
+                'transform-async-to-generator',
+                'transform-regenerator',
+                //{modules: false}
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
 };
 
 
