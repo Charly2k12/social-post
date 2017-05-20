@@ -1,0 +1,21 @@
+import isarray from "lodash.isarray";
+import isobject from "lodash.isobject";
+import isboolean from "lodash.isboolean";
+import isfunction from "lodash.isfunction";
+import isnan from "lodash.isnan";
+import isnull from "lodash.isnull";
+import isnumber from "lodash.isnumber";
+import isstring from "lodash.isstring";
+import isundefined from "lodash.isundefined";
+import uniqueid from "lodash.uniqueid";
+
+export const isArray      = isarray;
+export const isObject     = isobject;
+export const isBoolean    = isboolean;
+export const isFunction   = isfunction;
+export const isNan        = isnan;
+export const isNull       = isnull;
+export const isNumber     = isnumber;
+export const isString     = isstring;
+export const isUndefined  = isundefined;
+export const unqueId      = uniqueid;
