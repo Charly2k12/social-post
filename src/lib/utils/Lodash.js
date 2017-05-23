@@ -18,4 +18,4 @@ export const isNull       = isnull;
 export const isNumber     = isnumber;
 export const isString     = isstring;
 export const isUndefined  = isundefined;
-export const unqueId      = uniqueid;
+export const uniqueId     = uniqueid;

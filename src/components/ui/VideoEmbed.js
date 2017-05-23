@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
   isFunction
-} from "../lib/utils/Lodash"
+} from "../../lib/utils/Lodash"
 
 // ------------------- //
   // VIDEO EMBED ------------------- //

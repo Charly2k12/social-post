@@ -3,10 +3,10 @@ import React, {Component} from 'react';
 import Icon from "./Icon";
 import {
   isFunction
-} from "../lib/utils/Lodash";
+} from "../../lib/utils/Lodash";
 
 // ------------------- //
-  // WF ACTION ------------------- //
+  // ACTION ------------------- //
 // ------------------- //
 
 let classes = {

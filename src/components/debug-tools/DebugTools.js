@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
-import Col from "./Col";
-import Clear from "./Clear";
+import Col from "../ui/Col";
+import Clear from "../ui/Clear";
 
 // ------------------- //
   // DEBUG TOOLS ------------------- //

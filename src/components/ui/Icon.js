@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {
   isFunction
-} from "../lib/utils/Lodash";
+} from "../../lib/utils/Lodash";
 
 // ------------------- //
   // WF ICON ------------------- //
