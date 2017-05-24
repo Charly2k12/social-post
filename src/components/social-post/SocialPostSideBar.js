@@ -13,8 +13,10 @@ class SocialPostSideBar extends Component {
       children,
       bodyHeight,
       hasSidebar,
+      isFullScreen,
     } = this.props;
-    if (!hasSidebar) {
+    if (isFullScreen 
+      || !hasSidebar) {
       return false;
     } else {
       return (

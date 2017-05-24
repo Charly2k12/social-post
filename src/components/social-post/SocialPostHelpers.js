@@ -27,7 +27,7 @@ class SocialPostHelpers {
     return node.offsetWidth ;
   }
 
-  static refreshSize(c, el = null) {
+  static refreshSize(c, el = null, isFullScreen = false) {
     const {
       type,
       prevEl,
@@ -49,13 +49,13 @@ class SocialPostHelpers {
       switch(type) {
         case __.TYPE_IMAGE:
           SocialPostHelpers.fixImgRatio(c, {
-            el, prevEl, height, width
+            el, prevEl, height, width, isFullScreen
           });
           break;
         
         case __.TYPE_EMBED:
           SocialPostHelpers.fixEmbedRatio(c, {
-            el, prevEl, height, width
+            el, prevEl, height, width, isFullScreen
           });
           break;
           
@@ -80,7 +80,8 @@ class SocialPostHelpers {
       el,
       prevEl,
       height,
-      width
+      width,
+      isFullScreen = false
     } = args;
     let handle = null;
     if (el) {
@@ -93,36 +94,54 @@ class SocialPostHelpers {
       handle = prevEl;
     }
     if (handle) {
-      let minScreen = 1060;
-      let minWidth  = 400;
-      let minHeight = 400;
-      let ratio     = handle;
-      let sidebar   = __.SIDEBAR_WITH;
-      let padding   = __.PADDING_WITH;
-      let srcWidth  = handle.width;
-      let scrHeight = handle.height;
-      if (!hasSidebar) {
-        sidebar = 0;
+
+      if (isFullScreen) {
+        let ratio = Utils.screen.calculateAspectRatioFit(
+          handle.width, 
+          handle.height, 
+          width, 
+          height
+        );
+        if (ratio.height >= height) {
+          ratio.width = ratio.width - (ratio.width*0.15);
+          ratio.height = ratio.height - (ratio.height*0.15);
+        }
+        c.setState({
+          bodyHeight: ratio.height,
+          bodyWidth: ratio.width
+        });
+      } else {
+        let minScreen = 1060;
+        let minWidth  = 400;
+        let minHeight = 400;
+        let ratio     = handle;
+        let sidebar   = __.SIDEBAR_WITH;
+        let padding   = __.PADDING_WITH;
+        let srcWidth  = handle.width;
+        let scrHeight = handle.height;
+        if (!hasSidebar) {
+          sidebar = 0;
+        }
+        if (width <= minScreen) {
+          padding = (__.PADDING_WITH/2.5)
+        }
+        ratio = Utils.screen.calculateAspectRatioFit(
+          srcWidth, 
+          scrHeight, 
+          (width - sidebar - padding), 
+          (height - padding)
+        );
+        if (ratio.width <= minWidth) {
+          ratio.width = minWidth;
+        }
+        if (ratio.height <= minHeight) {
+          ratio.height = minHeight;
+        }
+        c.setState({
+          bodyHeight: ratio.height,
+          bodyWidth: ratio.width
+        });
       }
-      if (width <= minScreen) {
-        padding = (__.PADDING_WITH/2.5)
-      }
-      ratio = Utils.screen.calculateAspectRatioFit(
-        srcWidth, 
-        scrHeight, 
-        (width - sidebar - padding), 
-        (height - padding)
-      );
-      if (ratio.width <= minWidth) {
-        ratio.width = minWidth;
-      }
-      if (ratio.height <= minHeight) {
-        ratio.height = minHeight;
-      }
-      c.setState({
-        bodyHeight: ratio.height,
-        bodyWidth: ratio.width
-      });
     }
   }
 

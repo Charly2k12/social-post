@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import * as __ from "../../constant";
 import Utils from "../../lib/utils";
 import { 
+  isBoolean,
   isFunction 
 } from "../../lib/utils/Lodash";
 
@@ -12,6 +13,7 @@ import Col from "../ui/Col";
 import Clear from "../ui/Clear";
 import Icon from "../ui/Icon";
 import Action from "../ui/Action";
+import Avatar from "../ui/Avatar";
 import VideoEmbed from "../ui/VideoEmbed";
 
 // HELPERS
@@ -85,12 +87,12 @@ class SocialPost extends Component {
       counter: "1/6",
       
       imgWidthFull: false,
-      imgSrc: "http://lorempixel.com/700/800/sports",
+      imgSrc: "http://lorempixel.com/1200/800/sports",
       videoSrc: "https://www.youtube.com/embed/z_aC5xPQ2f4?ecver=2",
 
 
-      //type: __.TYPE_IMAGE,
-      type: __.TYPE_EMBED,
+      type: __.TYPE_IMAGE,
+      //type: __.TYPE_EMBED,
 
     } 
   }
@@ -100,9 +102,14 @@ class SocialPost extends Component {
       breakpoint,
       classNames,
       bodyHeight,
+      isFullScreen
     } = this.state;
+    let style = {};
+    if (isFullScreen) {
+      style["minWidth"] = "100%";
+    }
     return (
-      <social-post>
+      <social-post style={style}>
         {this.getOverlay()}
         <div className={`${breakpoint} ${classes.wrapper} ${classNames}`}>
           <div className={`${classes.container}`}>
@@ -123,7 +130,31 @@ class SocialPost extends Component {
               <SocialPostSideBar 
               parent={this}
               {...this.state}>
-                <div className="dv"/><Clear/>
+
+                <div className="sp-widget sp-widget-profile top">
+                  <Avatar 
+                  size={40}
+                  link={'#'} 
+                  email={'contact@wonderform.net'}
+                  />
+                  <span className={"sp-profile-fullname"}>
+                    <a>Johanna Valentino Vertia</a>
+                  </span>
+                  <span className={"sp-profile-date"}>
+                    Il y a 55 min
+                  </span>
+                </div><Clear/>
+                
+                <div className="sp-widget sp-widget-message">
+                  <span className={"sp--p"}>
+                    🍍Il fait chaud,il fait beau !!🍍 <br/>
+                    Profitez des promos "au dessus c'est le soleil" <br/>
+                    <a>https://shop.dieudosphere.com/promotions</a>
+                  </span>
+                </div><Clear/>
+
+
+
                 <div className="dv"/><Clear/>
                 <div className="dv"/><Clear/>
                 <div className="dv"/><Clear/>
@@ -155,13 +186,20 @@ class SocialPost extends Component {
   }
 
   getButtonClose() {
-    return (
-      <Icon 
-      icon={classes.icon.close} 
-      className={`${classes.btn.close}`}
-      onClick={() => this.onClose()}
-      />
-    )
+    const {
+      isFullScreen
+    } = this.state;
+    if (isFullScreen) {
+      return false;
+    } else {
+      return (
+        <Icon 
+        icon={classes.icon.close} 
+        className={`${classes.btn.close}`}
+        onClick={() => this.onClose()}
+        />
+      )
+    }
   }
 
   // ------------------- //
@@ -195,10 +233,12 @@ class SocialPost extends Component {
     const {
       isFullScreen
     } = this.state;
+    let status = !isFullScreen;
     this.onToggleClass(classes.status.fullscreen);
     this.setState({
-      isFullScreen: !isFullScreen
+      isFullScreen: status
     })
+    this.refreshSize(null, status);
   }
 
   // ------------------- //
@@ -230,9 +270,12 @@ class SocialPost extends Component {
     // UTILS ------------------- //
   // ------------------- //
 
-  refreshSize(el = null) {
-    //console.error("REFRESH SIZE...", el)
-    SocialPostHelpers.refreshSize(this, el);
+  refreshSize(el = null, forceFullScreen = null) {
+    if (isBoolean(forceFullScreen)) {
+      SocialPostHelpers.refreshSize(this, el, forceFullScreen);
+    } else {
+      SocialPostHelpers.refreshSize(this, el, this.state.isFullScreen);
+    }
   }
 
   // FOCUS SUPPORT ------------------- //

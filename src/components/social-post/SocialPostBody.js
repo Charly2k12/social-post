@@ -18,17 +18,11 @@ class SocialPostBody extends Component {
   render () {
     const {
       parent,
-      children,
-      bodyHeight,
-      bodyWidth,
+      children
     } = this.props;
     return(
       <div className={`${classes.body.is}`}
-      style={{
-        width:`${bodyWidth}px`,
-        height:`${bodyHeight}px`,
-        lineHeight:`${bodyHeight}px`,
-      }}
+      style={this.getStyle()}
       onMouseEnter={() => parent.onToggleClass(classes.body.hover)}
       onMouseLeave={() => parent.onToggleClass(classes.body.hover)}
       >
@@ -42,6 +36,21 @@ class SocialPostBody extends Component {
         {this.getFooter()}
       </div>
     )
+  }
+
+  getStyle() {
+    const {
+      parent,
+      children,
+      bodyHeight,
+      bodyWidth,
+      hasSideBar
+    } = this.props;
+    let style = {};
+    style['width'] = `${bodyWidth}px`;
+    style['height'] = `${bodyHeight}px`;
+    style['lineHeight'] = `${bodyHeight}px`;
+    return style;
   }
 
   getTitle() {
