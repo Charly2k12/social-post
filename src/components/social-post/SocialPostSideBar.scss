@@ -1,0 +1,54 @@
+// ------------------- //
+  // SOCIAL POST SIDEBAR ------------------- //
+// ------------------- //
+
+.sp-sidebar {
+
+}
+
+/* SIDEBAR EVENTS --------------------------- */
+
+.__sidebar_hover {}
+
+/* SIDEBAR BASE --------------------------- */
+  
+.sp-widget {
+  margin-top: 0;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 14px;
+  line-height: 1.38em;
+}
+
+// Author ---------- //
+
+.sp-widget-profile {
+  position: relative;
+  text-align: left;
+  &.top {
+    padding: 16px;  
+    .sp-avatar {
+      float: left;
+      margin-right: 10px;
+    }
+  }
+} 
+.sp-profile-fullname {
+  font-weight: bold;
+  display: block;
+}
+.sp-profile-date {
+  color: #90949c;
+  font-weight: normal;
+  font-size: 12px;
+  display: block;
+}
+
+// Message ---------- //
+
+.sp-widget-message {
+  min-height: 100px;
+}
+.sp--p {
+
+}
