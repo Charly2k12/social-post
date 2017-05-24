@@ -119,162 +119,47 @@ class SocialPostHelpers {
       if (ratio.height <= minHeight) {
         ratio.height = minHeight;
       }
-      if( nextBodyHeight!==bodyHeight ) {
       c.setState({
         bodyHeight: ratio.height,
-        bodyWidth: ratio.width,
+        bodyWidth: ratio.width
       });
     }
   }
 
   static fixEmbedRatio(c, args = {}) {
     const {
+      isMobile,
+      hasSidebar
+    } = c.state;
+    const {
+      el,
       width,
       height
     } = args;
     let minScreen = 1060;
+    let minHeight = 400;
+    let minWidth = width;
     let sidebar   = __.SIDEBAR_WITH;
     let padding   = __.PADDING_WITH;
+    let nextBodyWidth = width - sidebar - (padding*1.5);
+    let nextBodyHeight 
+    = SocialPostHelpers.getHeight(c, SP_BODY_CONTENT);
     if (!hasSidebar) {
       sidebar = 0;
     }
     if (width <= minScreen) {
-      padding = (__.PADDING_WITH/2.5)
+      minWidth = minScreen;
+      padding = (__.PADDING_WITH/2.5);
+      nextBodyWidth = minWidth - sidebar - padding;
     }
-    let minHeight = 500;
-    let nextBodyWidth = minWidth - sidebar - padding;
-    let nextBodyHeight 
-    = SocialPostHelpers.getHeight(c, SP_BODY_CONTENT);
     if (nextBodyHeight === 0) {
       nextBodyHeight = minHeight;
-    }
-    if( nextBodyHeight!==bodyHeight ) {
-      c.setState({
-        bodyHeight: nextBodyHeight,
-        bodyWidth: nextBodyWidth
-      });
-    }
+    } 
+    c.setState({
+      bodyHeight: nextBodyHeight,
+      bodyWidth: nextBodyWidth
+    });
   }
-
-
-
-
-/*
-  static refreshBodyHeight (c, width, height, ratio = null) {
-    const {
-      type,
-      bodyHeight
-    } = c.state;
-    let minHeight = 500;
-    let nextBodyHeight 
-    = SocialPostHelpers.getHeight(c, SP_BODY_CONTENT);
-    if (nextBodyHeight === 0) {
-      nextBodyHeight = minHeight;
-    }
-    if (type === __.TYPE_IMAGE) {
-      minHeight = 500;
-      if (minHeight >= height) {
-        if (height > 300) {
-          minHeight = height - 100;
-        }
-      }
-      /*
-      if (ratio!==null) {
-        console.log("H RESIZE")
-        console.log(ratio.height, minHeight, ratio.height <= minHeight)  
-      }
-      *
-      if (ratio!==null 
-        && (ratio.height <= minHeight)) {
-        nextBodyHeight = minHeight;
-      }
-    }
-
-    switch(type) {
-      case __.TYPE_IMAGE:
-
-        break;
-      
-      case __.TYPE_VIDEO:
-      case __.TYPE_EMBED:
-      case __.TYPE_GALLERY:
-      case __.TYPE_ARTICLE:
-      case __.TYPE_CUSTOM:
-      default:
-
-        break;
-    }
-
-    if( nextBodyHeight!==bodyHeight ) {
-      c.setState({
-        bodyHeight: nextBodyHeight,
-      });
-    }
-  }
-
-  static refreshBodyWidth (c, width, height, ratio = null) {
-    const {
-      type,
-      isMobile,
-      bodyWidth,
-      hasSidebar
-    } = c.state;
-
-    let minWidth = width;
-    let sidebar = __.SIDEBAR_WITH;
-    let padding = __.PADDING_WITH;
-    let nextBodyWidth = 0;
-    let imgWidthFull = false;
-
-    if (isMobile) {
-      sidebar = 0;
-      padding = 0;
-    }
-    if (!hasSidebar) {
-      sidebar = 0;
-    }
-    if (width <= 1060) {
-      console.log("width <= 1060", width)
-      minWidth = 1060;
-      padding =  (__.PADDING_WITH/2.5)
-    }
-
-    switch(type) {
-      
-      case __.TYPE_VIDEO:
-        nextBodyWidth = 0;
-        break;
-      
-      case __.TYPE_EMBED:
-        nextBodyWidth = minWidth - sidebar - padding;
-        break;
-      
-      case __.TYPE_GALLERY:
-        nextBodyWidth = 0;
-        break;
-      
-      case __.TYPE_ARTICLE:
-      case __.TYPE_CUSTOM:
-      default:
-        nextBodyWidth = 0;
-        break;
-    }
-
-    if (nextBodyWidth === 0 
-      || ratio === null) {
-      nextBodyWidth = 700;
-    }
-
-    console.error(imgWidthFull) 
-
-    if(nextBodyWidth!==bodyWidth) {
-      c.setState({
-        bodyWidth: nextBodyWidth,
-        imgWidthFull
-      });
-    }
-  }
-*/
 
   static setConfigByType(c) {
 

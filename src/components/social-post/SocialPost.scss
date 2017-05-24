@@ -211,25 +211,46 @@ social-post {
   /* SM --------------------------- */
 
   @include bp(sm){
-    min-width: 1060px;    
+    min-width: 1060px;   
+    .sp-content {
+      padding-right: 300px;
+    } 
     .sp-body {
       //width: 400px;
     }
     .sp-sidebar {
       width: 300px;
+      position: absolute;
+      top: 0;
+      right: 0;
     }
   }
 
   /* MD --------------------------- */
 
   @include bp(md){
-    min-width: 1060px;    
+    min-width: 1060px; 
+    .sp-content {
+      padding-right: 360px;
+    } 
     .sp-body {
       //width: 600px;
     }
     .sp-sidebar {
       width: 360px;
+      position: absolute;
+      top: 0;
+      right: 0;
     }
+
+    .sp-body-content {
+      &.sp--embed {
+        display: inline-table;
+        width: 100%;
+        vertical-align: middle;
+      }
+    }
+
   }
 
   /* LG --------------------------- */
@@ -238,12 +259,18 @@ social-post {
     .sp-body {
       //width: 980px;
     }
+    .sp-content {
+      padding-right: 360px;
+    } 
     .sp-sidebar {
       width: 360px;
+      position: absolute;
+      top: 0;
+      right: 0;
     }
   }
 
-  /* ELEMENT --------------------------- */
+  /*BODY BASE --------------------------- */
 
   .sp-el-title,
   .sp-el-counter,
@@ -271,12 +298,10 @@ social-post {
     }
   }
 
-  /* ELEMENT --------------------------- */
+  /* BODY ELEMENT --------------------------- */
 
   .sp-body-content {
-    &.sp--embed {
-
-    }
+    &.sp--embed {}
     &.sp--image {
       text-align: center;
       @include vertical-align-parent();
@@ -293,14 +318,10 @@ social-post {
     }
   }
   
-  /*
-  .sp-body {
-    @include vertical-align-parent();
-    &.sp--image {
-      @include vertical-align();
-    }
-  }
-  */
+  /* SIDEBAR BASE --------------------------- */
+
+  
+
 
   /* TEST --------------------------- */
 

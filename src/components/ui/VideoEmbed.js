@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from "react-dom";
 import {
   isFunction
 } from "../../lib/utils/Lodash"
@@ -16,8 +17,9 @@ class VideoEmbed extends Component {
 
   constructor(props) {
     super(props);
+    this.frame = null;
     this.state = {
-      isLoad: false
+      ready: false
     }
   }
 
@@ -26,10 +28,10 @@ class VideoEmbed extends Component {
       src="", 
       className="", 
       style={},
-      visible=true
+      visible=true,
     } = this.props;
     const {
-      isLoad
+      ready
     } = this.state;
     if (!visible||!src) {
       return false;
@@ -38,15 +40,32 @@ class VideoEmbed extends Component {
         <div className={`${className} ${classes.wrapper}`}> 
           <iframe 
           src={src}
-          className={classes.frame}
-          onLoad={() => {
-            this.setState({
-              isLoad: true
-            })
-          }}
+          ref={c => this.frame = c}
+          className={`${classes.frame} fade ${ready?"in":""}`}
+          onLoad={() => this.handleFrameLoaded()}
           /> 
         </div>
       )
+    }
+  }
+
+  handleFrameLoaded () {
+    const { 
+      onReady = null 
+    } = this.props; 
+    let size = null;
+    if (this.frame) {
+      let node = ReactDOM.findDOMNode(this.frame) ;
+      size = {
+        height: !node?0:node.offsetHeight,
+        width: !node?0:node.offsetWidth
+      }
+    }
+    this.setState({
+      ready: true
+    });
+    if (isFunction(onReady)) {
+      onReady(size);
     }
   }
 }

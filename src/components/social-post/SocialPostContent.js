@@ -46,7 +46,7 @@ class SocialPostContent extends Component {
         <Img src={imgSrc} 
         style={style}
         className={"center-block"}
-        onReady={(img) => parent.refreshSize(img)}
+        onReady={(size) => parent.refreshSize(size)}
         />
       )
     }
@@ -62,13 +62,17 @@ class SocialPostContent extends Component {
 
   getVideoEmbed() {
     const {
+      parent,
       videoSrc
     } = this.props;
     if (!videoSrc) {
       return false;
     } else {
       return (
-        <VideoEmbed src={videoSrc}/>
+        <VideoEmbed 
+        src={videoSrc}
+        onReady={(size) => parent.refreshSize(size)}
+        />
       );
     }
   }

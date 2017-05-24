@@ -64,7 +64,7 @@ class SocialPost extends Component {
       hash: null,
 
       bodyHeight: 500,
-      bodyWidth: 700,
+      bodyWidth: 675,
 
       height: 0,
       width: 0,
@@ -89,8 +89,8 @@ class SocialPost extends Component {
       videoSrc: "https://www.youtube.com/embed/z_aC5xPQ2f4?ecver=2",
 
 
-      type: __.TYPE_IMAGE,
-      //type: __.TYPE_EMBED,
+      //type: __.TYPE_IMAGE,
+      type: __.TYPE_EMBED,
 
     } 
   }
@@ -209,7 +209,7 @@ class SocialPost extends Component {
     //this.refreshSize();
     SocialPostHelpers.setConfigByType(this);
     Utils.eventListner.add("resize", () => this.refreshSize());
-    Utils.eventListner.add("click", (e) => this.onFocusEvent(e));
+    Utils.eventListner.add("click", (e) => this.focusOutClickEvent(e));
   }
 
   componentDidMount () {
@@ -219,7 +219,7 @@ class SocialPost extends Component {
   componentWillUnmount () {
     //this.refreshSize = () => false;
     Utils.eventListner.remove("resize", () => this.refreshSize());
-    Utils.eventListner.add("click", (e) => this.onFocusEvent(e));
+    Utils.eventListner.remove("click", (e) => this.focusOutClickEvent(e));
   }
 
   componentDidUpdate () {
@@ -231,12 +231,13 @@ class SocialPost extends Component {
   // ------------------- //
 
   refreshSize(el = null) {
+    //console.error("REFRESH SIZE...", el)
     SocialPostHelpers.refreshSize(this, el);
   }
 
   // FOCUS SUPPORT ------------------- //
 
-  onFocusEvent(evt) {
+  focusOutClickEvent(evt) {
     const ref = this.refs[this.name];
     const area = ReactDOM.findDOMNode(ref);
     if (area && !area.contains(evt.target)) {
